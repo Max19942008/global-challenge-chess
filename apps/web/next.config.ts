@@ -1,6 +1,6 @@
 import type { NextConfig } from 'next';
 
-// Stage 1 has no server: the site is a static export, deployable to any static host.
+// Static export: the site needs no server and can be hosted anywhere.
 const config: NextConfig = {
   output: 'export',
   transpilePackages: ['@shaxmat/chess-core'],
