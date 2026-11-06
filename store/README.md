@@ -11,7 +11,7 @@
 ## Store settings
 - **App or game:** Game · **Category:** Board
 - **Free**, reklama yo'q (Contains ads: **No**)
-- **Contact email:** o'zingizning emailingiz (majburiy, sahifada ko'rinadi)
+- **Contact email:** bobur.rakhimboevv@gmail.com
 - **Website:** https://github.com/Max19942008/global-challenge-chess
 
 ## App content javoblari

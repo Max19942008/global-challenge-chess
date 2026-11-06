@@ -29,11 +29,11 @@ We do **not** collect your name, email, phone number, contacts, location, photos
 
 **Security.** Data is sent over an encrypted connection (TLS).
 
-**Keeping and deleting data.** Your guest account and games are kept while the service runs. Uninstalling the app or clearing its data removes the token from your device; the old guest account can then no longer be used. To have your server data deleted, open a request at the contact link below and include your guest name; we delete it within 30 days.
+**Keeping and deleting data.** Your guest account and games are kept while the service runs. Uninstalling the app or clearing its data removes the token from your device; the old guest account can then no longer be used. To have your server data deleted, email us (or open a request at the link below) and include your guest name; we delete it within 30 days.
 
 **Children.** The app is not directed at children under 13.
 
-**Contact.** https://github.com/Max19942008/global-challenge-chess/issues
+**Contact.** bobur.rakhimboevv@gmail.com · https://github.com/Max19942008/global-challenge-chess/issues
 
 **Changes.** We will update this page if the policy changes.
 
@@ -58,11 +58,11 @@ Biz ismingiz, email, telefon raqami, kontaktlar, joylashuv, rasmlar, reklama ID 
 
 **Xavfsizlik.** Ma'lumotlar shifrlangan ulanish (TLS) orqali yuboriladi.
 
-**Saqlash va o'chirish.** Mehmon hisobi va o'yinlar xizmat ishlayotgan vaqtda saqlanadi. Ilovani o'chirsangiz yoki ma'lumotlarini tozalasangiz, token qurilmadan o'chadi va eski hisobdan foydalanib bo'lmaydi. Serverdagi ma'lumotlaringizni o'chirish uchun quyidagi havola orqali mehmon ismingizni yozib so'rov yuboring — 30 kun ichida o'chiramiz.
+**Saqlash va o'chirish.** Mehmon hisobi va o'yinlar xizmat ishlayotgan vaqtda saqlanadi. Ilovani o'chirsangiz yoki ma'lumotlarini tozalasangiz, token qurilmadan o'chadi va eski hisobdan foydalanib bo'lmaydi. Serverdagi ma'lumotlaringizni o'chirish uchun emailga (yoki quyidagi havola orqali) mehmon ismingizni yozib so'rov yuboring — 30 kun ichida o'chiramiz.
 
 **Bolalar.** Ilova 13 yoshgacha bo'lgan bolalarga mo'ljallanmagan.
 
-**Aloqa.** https://github.com/Max19942008/global-challenge-chess/issues
+**Aloqa.** bobur.rakhimboevv@gmail.com · https://github.com/Max19942008/global-challenge-chess/issues
 
 **O'zgarishlar.** Siyosat o'zgarsa, shu sahifani yangilaymiz.
 
@@ -87,10 +87,10 @@ Global Challenge Chess («приложение») — шахматная игр�
 
 **Безопасность.** Данные передаются по зашифрованному соединению (TLS).
 
-**Хранение и удаление.** Гостевой аккаунт и партии хранятся, пока работает сервис. При удалении приложения или очистке его данных токен удаляется с устройства, и старым аккаунтом пользоваться больше нельзя. Чтобы удалить ваши данные с сервера, отправьте запрос по ссылке ниже, указав гостевое имя, — мы удалим их в течение 30 дней.
+**Хранение и удаление.** Гостевой аккаунт и партии хранятся, пока работает сервис. При удалении приложения или очистке его данных токен удаляется с устройства, и старым аккаунтом пользоваться больше нельзя. Чтобы удалить ваши данные с сервера, напишите нам на email (или отправьте запрос по ссылке ниже), указав гостевое имя, — мы удалим их в течение 30 дней.
 
 **Дети.** Приложение не предназначено для детей младше 13 лет.
 
-**Контакты.** https://github.com/Max19942008/global-challenge-chess/issues
+**Контакты.** bobur.rakhimboevv@gmail.com · https://github.com/Max19942008/global-challenge-chess/issues
 
 **Изменения.** При изменении политики мы обновим эту страницу.
