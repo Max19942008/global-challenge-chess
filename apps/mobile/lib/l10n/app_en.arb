@@ -1,0 +1,156 @@
+{
+  "@@locale": "en",
+  "appTitle": "Global Challenge Chess",
+  "@appTitle": {
+    "description": "App name: English in every language."
+  },
+  "languageName": "English",
+  "@languageName": {
+    "description": "This language's own name, shown in the language picker."
+  },
+  "chooseLanguage": "Choose your language",
+  "language": "Language",
+  "menuSubtitle": "Train with the bot. Challenge your friends.",
+  "vsBot": "Play the bot",
+  "twoPlayers": "Two players",
+  "level": "Level",
+  "levelBeginner": "Beginner",
+  "levelIntermediate": "Intermediate",
+  "levelStrong": "Strong",
+  "yourColor": "Your colour",
+  "colorWhite": "White",
+  "colorRandom": "Random",
+  "colorBlack": "Black",
+  "start": "Start",
+  "botNote": "The bot runs on your phone. No internet needed.",
+  "twoPlayersNote": "Take turns on one phone.",
+  "flipBoard": "Flip board",
+  "you": "You",
+  "botName": "Bot · {level}",
+  "@botName": {
+    "placeholders": {
+      "level": {
+        "type": "String"
+      }
+    }
+  },
+  "thinking": "thinking…",
+  "sideWhite": "White",
+  "sideBlack": "Black",
+  "whiteToMove": "White to move",
+  "blackToMove": "Black to move",
+  "check": "check!",
+  "turnWithCheck": "{turn} — {check}",
+  "@turnWithCheck": {
+    "placeholders": {
+      "turn": {
+        "type": "String"
+      },
+      "check": {
+        "type": "String"
+      }
+    }
+  },
+  "whiteWins": "White wins",
+  "blackWins": "Black wins",
+  "draw": "draw",
+  "reasonCheckmate": "Checkmate",
+  "reasonStalemate": "Stalemate",
+  "reasonThreefold": "Threefold repetition",
+  "reasonFiftyMove": "Fifty-move rule",
+  "reasonInsufficient": "Insufficient material",
+  "whiteResigned": "White resigned",
+  "blackResigned": "Black resigned",
+  "gameOver": "{reason} — {result}",
+  "@gameOver": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      },
+      "result": {
+        "type": "String"
+      }
+    }
+  },
+  "noMovesYet": "No moves yet",
+  "undo": "Undo",
+  "resign": "Resign",
+  "newGame": "New game",
+  "engineError": "Engine error: {error}",
+  "@engineError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "moves": "Moves",
+  "viewBoard": "View board",
+  "gameOverTitle": "Game over",
+  "botLevelHint": "Bot strength",
+  "playOnline": "Play online",
+  "playOnlineNote": "Real opponents, rated games.",
+  "onlineNow": "{count} online now",
+  "@onlineNow": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeControl": "Time control",
+  "minutes": "{n} min",
+  "@minutes": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "findOpponent": "Find opponent",
+  "searching": "Searching for an opponent…",
+  "cancel": "Cancel",
+  "botOfferTitle": "No one is free right now",
+  "botOfferBody": "Play the bot instead? We keep searching until you decide.",
+  "keepSearching": "Keep searching",
+  "connecting": "Connecting…",
+  "serverUnavailable": "Can't reach the game server. Check your internet.",
+  "retry": "Retry",
+  "offerDraw": "Offer draw",
+  "drawOffered": "Opponent offers a draw",
+  "drawOfferSent": "Draw offered",
+  "drawDeclined": "Draw declined",
+  "accept": "Accept",
+  "decline": "Decline",
+  "opponentDisconnected": "Opponent disconnected — waiting {seconds} s",
+  "@opponentDisconnected": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "opponentLeft": "Opponent left the game",
+  "claimVictory": "Claim victory",
+  "reconnecting": "Reconnecting…",
+  "ratingChange": "Rating {before} → {after} ({delta})",
+  "@ratingChange": {
+    "placeholders": {
+      "before": {
+        "type": "int"
+      },
+      "after": {
+        "type": "int"
+      },
+      "delta": {
+        "type": "String"
+      }
+    }
+  },
+  "reasonTimeout": "Time out",
+  "reasonAbandon": "Opponent left",
+  "reasonDrawAgreed": "Draw agreed",
+  "reasonAborted": "Game aborted",
+  "unratedAborted": "No one moved in time — no rating change.",
+  "yourRating": "Your rating"
+}

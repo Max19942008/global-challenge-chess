@@ -1,0 +1,15 @@
+{
+  "name": "shaxmat",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @shaxmat/web",
+    "build": "npm run build -w @shaxmat/web",
+    "test": "npm test -w @shaxmat/chess-core && npm test -w @shaxmat/server",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "server": "npm run dev -w @shaxmat/server"
+  }
+}
