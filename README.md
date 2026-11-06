@@ -84,4 +84,4 @@ Server internetda, HTTPS bilan turishi kerak (`apps/server/README.md` → Deploy
 flutter build appbundle --release --dart-define=SERVER_URL=wss://<server domeni>
 ```
 
-Imzo kaliti `C:\Users\BSP_017\shaxmat-keys\` da (repo'da emas). Paket nomi: `com.globalchallenge.chess`.
+Imzo kaliti: yuqoridagi "Imzo kaliti" bo'limiga qarang. Paket nomi: `com.globalchallenge.chess`.
