@@ -11,7 +11,11 @@
 	handle /ws* {
 		reverse_proxy chess-server:8080
 	}
+	# Server HTTP routes: health check and profile photos (/avatar/<userId>?v=n)
 	handle /health {
+		reverse_proxy chess-server:8080
+	}
+	handle /avatar/* {
 		reverse_proxy chess-server:8080
 	}
 	# Flutter web build (static files)

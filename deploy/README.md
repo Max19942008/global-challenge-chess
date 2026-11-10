@@ -12,6 +12,7 @@ one site file to it.
 | `https://$CHESS_DOMAIN` | `chess-web`: Flutter web build (static) |
 | `wss://$CHESS_DOMAIN/ws` | `chess-server`: online games |
 | `https://$CHESS_DOMAIN/health` | server health check |
+| `https://$CHESS_DOMAIN/avatar/<id>` | profile photos (served by the game server) |
 
 Redis and Postgres are only on the project's internal network.
 
