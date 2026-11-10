@@ -152,5 +152,98 @@
   "reasonDrawAgreed": "Draw agreed",
   "reasonAborted": "Game aborted",
   "unratedAborted": "No one moved in time — no rating change.",
-  "yourRating": "Your rating"
+  "yourRating": "Your rating",
+  "tabPlayers": "Players",
+  "tabQuickMatch": "Quick match",
+  "tabLeaderboard": "Leaderboard",
+  "statusWatching": "Watching",
+  "statusReady": "Ready to play",
+  "statusPlaying": "Playing",
+  "myStatus": "Your status",
+  "myStatusWatchingHint": "Just looking. Nobody can challenge you.",
+  "myStatusReadyHint": "Players in the lobby can challenge you.",
+  "nobodyElseOnline": "Nobody else is online right now. Try a quick match or play the bot.",
+  "challenge": "Challenge",
+  "challengeTitle": "Challenge {name}",
+  "@challengeTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeSend": "Send challenge",
+  "challengeIncoming": "{name} challenges you",
+  "@challengeIncoming": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeWaiting": "Waiting for {name}…",
+  "@challengeWaiting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeDeclined": "{name} declined",
+  "@challengeDeclined": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "challengeExpired": "No answer — the challenge expired",
+  "challengeCancelled": "The challenge was cancelled",
+  "challengeUnavailable": "That player is busy right now",
+  "rated": "Rated",
+  "casual": "Friendly",
+  "statsLine": "{wins} W · {losses} L · {draws} D",
+  "@statsLine": {
+    "placeholders": {
+      "wins": {
+        "type": "int"
+      },
+      "losses": {
+        "type": "int"
+      },
+      "draws": {
+        "type": "int"
+      }
+    }
+  },
+  "wins": "Wins",
+  "losses": "Losses",
+  "draws": "Draws",
+  "sortByRating": "By rating",
+  "sortByWins": "By wins",
+  "yourPlace": "Your place: #{rank}",
+  "@yourPlace": {
+    "placeholders": {
+      "rank": {
+        "type": "int"
+      }
+    }
+  },
+  "leaderboardEmpty": "No finished games here yet. Be the first!",
+  "ratingExplained": "Higher rating = stronger player. Win rated games to climb.",
+  "categoryBlitz": "Blitz",
+  "categoryRapid": "Rapid",
+  "categoryBullet": "Bullet",
+  "profile": "Profile",
+  "profileName": "Name",
+  "profileNameHint": "2–24 characters, shown to other players",
+  "addPhoto": "Add photo",
+  "changePhoto": "Change photo",
+  "removePhoto": "Remove photo",
+  "save": "Save",
+  "saved": "Saved",
+  "profileBadName": "The name must be 2–24 characters.",
+  "profileBadPhoto": "This photo could not be used. Try another one.",
+  "profileOffline": "Connect to the server to change your profile.",
+  "onlineGamesTitle": "Online games"
 }

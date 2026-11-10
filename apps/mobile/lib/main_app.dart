@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'l10n/app_localizations.dart';
 import 'locale_controller.dart';
+import 'online/game_launcher.dart';
 import 'online/online_client.dart';
 import 'screens/language_screen.dart';
 import 'screens/menu_screen.dart';
@@ -19,7 +20,7 @@ const localizationsDelegates = <LocalizationsDelegate<dynamic>>[
   GlobalCupertinoLocalizations.delegate,
 ];
 
-class ShaxmatApp extends StatelessWidget {
+class ShaxmatApp extends StatefulWidget {
   const ShaxmatApp({
     super.key,
     required this.localeController,
@@ -30,14 +31,24 @@ class ShaxmatApp extends StatelessWidget {
   final OnlineClient onlineClient;
 
   @override
+  State<ShaxmatApp> createState() => _ShaxmatAppState();
+}
+
+class _ShaxmatAppState extends State<ShaxmatApp> {
+  final _navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
   Widget build(BuildContext context) {
+    final localeController = widget.localeController;
     return OnlineScope(
-      client: onlineClient,
+      client: widget.onlineClient,
       child: LocaleScope(
         controller: localeController,
         child: ListenableBuilder(
           listenable: localeController,
           builder: (context, _) => MaterialApp(
+            navigatorKey: _navigatorKey,
+            builder: (context, child) => GameLauncher(navigatorKey: _navigatorKey, child: child!),
             onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
             debugShowCheckedModeBanner: false,
             theme: appTheme(),

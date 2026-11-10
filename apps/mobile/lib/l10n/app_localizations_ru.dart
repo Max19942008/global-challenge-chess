@@ -263,4 +263,156 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get yourRating => 'Ваш рейтинг';
+
+  @override
+  String get tabPlayers => 'Игроки';
+
+  @override
+  String get tabQuickMatch => 'Быстрая игра';
+
+  @override
+  String get tabLeaderboard => 'Рейтинг';
+
+  @override
+  String get statusWatching => 'Наблюдает';
+
+  @override
+  String get statusReady => 'Готов играть';
+
+  @override
+  String get statusPlaying => 'Играет';
+
+  @override
+  String get myStatus => 'Ваш статус';
+
+  @override
+  String get myStatusWatchingHint =>
+      'Только смотрите. Вам не могут бросить вызов.';
+
+  @override
+  String get myStatusReadyHint => 'Игроки в лобби могут бросить вам вызов.';
+
+  @override
+  String get nobodyElseOnline =>
+      'Сейчас больше никого нет онлайн. Попробуйте быструю игру или бота.';
+
+  @override
+  String get challenge => 'Вызвать';
+
+  @override
+  String challengeTitle(String name) {
+    return 'Вызов: $name';
+  }
+
+  @override
+  String get challengeSend => 'Отправить вызов';
+
+  @override
+  String challengeIncoming(String name) {
+    return '$name бросает вам вызов';
+  }
+
+  @override
+  String challengeWaiting(String name) {
+    return 'Ждём ответа: $name…';
+  }
+
+  @override
+  String challengeDeclined(String name) {
+    return '$name отказался';
+  }
+
+  @override
+  String get challengeExpired => 'Нет ответа — вызов истёк';
+
+  @override
+  String get challengeCancelled => 'Вызов отменён';
+
+  @override
+  String get challengeUnavailable => 'Этот игрок сейчас занят';
+
+  @override
+  String get rated => 'На рейтинг';
+
+  @override
+  String get casual => 'Товарищеская';
+
+  @override
+  String statsLine(int wins, int losses, int draws) {
+    return '$wins В · $losses П · $draws Н';
+  }
+
+  @override
+  String get wins => 'Победы';
+
+  @override
+  String get losses => 'Поражения';
+
+  @override
+  String get draws => 'Ничьи';
+
+  @override
+  String get sortByRating => 'По рейтингу';
+
+  @override
+  String get sortByWins => 'По победам';
+
+  @override
+  String yourPlace(int rank) {
+    return 'Ваше место: $rank';
+  }
+
+  @override
+  String get leaderboardEmpty =>
+      'Здесь пока нет сыгранных партий. Будьте первым!';
+
+  @override
+  String get ratingExplained =>
+      'Чем выше рейтинг, тем сильнее игрок. Побеждайте в рейтинговых партиях, чтобы подняться.';
+
+  @override
+  String get categoryBlitz => 'Блиц';
+
+  @override
+  String get categoryRapid => 'Рапид';
+
+  @override
+  String get categoryBullet => 'Пуля';
+
+  @override
+  String get profile => 'Профиль';
+
+  @override
+  String get profileName => 'Имя';
+
+  @override
+  String get profileNameHint => '2–24 символа, видно другим игрокам';
+
+  @override
+  String get addPhoto => 'Добавить фото';
+
+  @override
+  String get changePhoto => 'Сменить фото';
+
+  @override
+  String get removePhoto => 'Удалить фото';
+
+  @override
+  String get save => 'Сохранить';
+
+  @override
+  String get saved => 'Сохранено';
+
+  @override
+  String get profileBadName => 'Имя должно быть от 2 до 24 символов.';
+
+  @override
+  String get profileBadPhoto => 'Это фото не подошло. Попробуйте другое.';
+
+  @override
+  String get profileOffline =>
+      'Подключитесь к серверу, чтобы изменить профиль.';
+
+  @override
+  String get onlineGamesTitle => 'Онлайн-партии';
 }

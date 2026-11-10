@@ -6,6 +6,10 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import 'models.dart';
+
+export 'models.dart';
+
 /// Game server address. Release builds pass the real one:
 ///   flutter build appbundle --dart-define=SERVER_URL=wss://your.server
 const serverUrl = String.fromEnvironment('SERVER_URL', defaultValue: 'ws://localhost:8080');
@@ -41,37 +45,6 @@ class _WsTransport implements OnlineTransport {
 
 enum OnlineState { idle, connecting, online, offline }
 
-class RatingInfo {
-  const RatingInfo(this.rating, this.provisional);
-  final int rating;
-  final bool provisional;
-  String get label => provisional ? '$rating?' : '$rating';
-}
-
-class OnlineUser {
-  OnlineUser(this.id, this.name, this.ratings);
-  final String id;
-  final String name;
-  final Map<String, RatingInfo> ratings;
-
-  static OnlineUser fromJson(Map<String, dynamic> j) {
-    final r = <String, RatingInfo>{};
-    (j['ratings'] as Map<String, dynamic>? ?? {}).forEach((k, v) {
-      final m = v as Map<String, dynamic>;
-      r[k] = RatingInfo((m['rating'] as num).round(), m['provisional'] == true);
-    });
-    return OnlineUser(j['id'] as String, j['name'] as String, r);
-  }
-}
-
-/// "3+0" → blitz etc. Mirrors the server.
-String ratingCategory(String timeControl) {
-  final minutes = double.tryParse(timeControl.split('+').first) ?? 5;
-  if (minutes < 3) return 'bullet';
-  if (minutes < 8) return 'blitz';
-  return 'rapid';
-}
-
 /// The single connection to the game server: guest login, reconnects,
 /// clock offset. Screens listen to [events] for queue/game messages.
 class OnlineClient extends ChangeNotifier {
@@ -95,6 +68,14 @@ class OnlineClient extends ChangeNotifier {
   OnlineState state = OnlineState.idle;
   OnlineUser? user;
   int onlineCount = 0;
+
+  /// Everyone online, while [subscribeLobby] is on (lobby:players).
+  List<LobbyPlayer> players = const [];
+
+  /// What this player told the server; re-sent after every reconnect.
+  PresenceStatus myStatus = PresenceStatus.watching;
+  int _lobbyListeners = 0;
+  Completer<String?>? _profileReply;
 
   /// Last game:start / game:state until game:end: lets screens resume a game.
   Map<String, dynamic>? activeGame;
@@ -131,6 +112,54 @@ class OnlineClient extends ChangeNotifier {
     _attempt = 0;
     if (state != OnlineState.connecting && state != OnlineState.online) _open();
   }
+
+  /// Full URL of an avatar path from the server (`/avatar/<id>?v=2`), on the
+  /// game server's HTTP side: ws://host → http://host, wss://host → https://host.
+  String? avatarUrl(String? path) {
+    if (path == null) return null;
+    final scheme = url.scheme == 'wss' ? 'https' : 'http';
+    return url.replace(scheme: scheme, path: '').toString().replaceFirst(RegExp(r'[/?#]+$'), '') + path;
+  }
+
+  /// Screens showing the player list call this on open and [unsubscribeLobby] on close.
+  void subscribeLobby() {
+    if (_lobbyListeners++ == 0) send('lobby:subscribe');
+  }
+
+  void unsubscribeLobby() {
+    if (_lobbyListeners == 0) return;
+    if (--_lobbyListeners == 0) send('lobby:unsubscribe');
+  }
+
+  /// Ready = others may challenge me. Kept across reconnects.
+  void setStatus(PresenceStatus status) {
+    if (status == PresenceStatus.playing) return;
+    myStatus = status;
+    send('lobby:status', {'status': status.name});
+    notifyListeners();
+  }
+
+  /// Changes name and/or photo. [avatarBase64]: JPEG/PNG bytes in base64; pass
+  /// [removeAvatar] to delete the photo. Returns null on success, else the error code.
+  Future<String?> updateProfile({String? name, String? avatarBase64, bool removeAvatar = false}) {
+    _profileReply?.complete('superseded');
+    final c = _profileReply = Completer<String?>();
+    final ok = send('profile:update', {
+      'name': ?name,
+      if (removeAvatar) 'avatar': null else 'avatar': ?avatarBase64,
+    });
+    if (!ok) {
+      _profileReply = null;
+      return Future.value('offline');
+    }
+    return c.future.timeout(const Duration(seconds: 15), onTimeout: () {
+      if (identical(_profileReply, c)) _profileReply = null;
+      return 'timeout';
+    });
+  }
+
+  void requestLeaderboard({String category = 'blitz', LeaderboardSort sort = LeaderboardSort.rating}) =>
+      send('leaderboard:get', {'category': category, 'sort': sort.name});
 
   /// Sends an intent. Returns false when not connected.
   bool send(String type, [Map<String, Object?> payload = const {}]) {
@@ -178,6 +207,21 @@ class OnlineClient extends ChangeNotifier {
         _attempt = 0;
         _samples.clear();
         _raw('ping', {'t': DateTime.now().millisecondsSinceEpoch});
+        // The server forgets both when the last socket closes.
+        if (myStatus == PresenceStatus.ready) _raw('lobby:status', {'status': 'ready'});
+        if (_lobbyListeners > 0) _raw('lobby:subscribe', {});
+        notifyListeners();
+      case 'profile:ok':
+        user = OnlineUser.fromJson(m['user'] as Map<String, dynamic>);
+        _profileReply?.complete(null);
+        _profileReply = null;
+        notifyListeners();
+      case 'error' when _profileReply != null && const {'bad_name', 'bad_avatar'}.contains(m['code']):
+        _profileReply!.complete(m['code'] as String);
+        _profileReply = null;
+      case 'lobby:players':
+        players = [for (final p in m['players'] as List) LobbyPlayer.fromJson(p as Map<String, dynamic>)];
+        onlineCount = (m['onlineCount'] as num?)?.toInt() ?? onlineCount;
         notifyListeners();
       case 'pong':
         _onPong(m);
@@ -194,6 +238,7 @@ class OnlineClient extends ChangeNotifier {
         notifyListeners();
       case 'game:end':
         _applyRatingChange(m); // needs activeGame's time control
+        _applyStats(m);
         activeGame = null;
         _events.add(m);
         notifyListeners();
@@ -227,11 +272,28 @@ class OnlineClient extends ChangeNotifier {
     u.ratings[cat] = RatingInfo((change['after'] as num).round(), u.ratings[cat]?.provisional ?? true);
   }
 
+  void _applyStats(Map<String, dynamic> end) {
+    final u = user;
+    final color = activeGame?['color'];
+    if (u == null || color == null || end['reason'] == 'aborted') return;
+    final result = end['result'];
+    final won = (result == '1-0' && color == 'white') || (result == '0-1' && color == 'black');
+    final s = u.stats;
+    final stats = result == '1/2-1/2'
+        ? GameStats(s.wins, s.losses, s.draws + 1)
+        : won
+            ? GameStats(s.wins + 1, s.losses, s.draws)
+            : GameStats(s.wins, s.losses + 1, s.draws);
+    user = OnlineUser(u.id, u.name, u.ratings, avatar: u.avatar, stats: stats);
+  }
+
   void _onClosed() {
     _sub?.cancel();
     _sub = null;
     _transport = null;
     _authed = false;
+    _profileReply?.complete('offline');
+    _profileReply = null;
     if (state == OnlineState.idle) return;
     state = OnlineState.offline;
     notifyListeners();

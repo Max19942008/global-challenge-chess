@@ -120,7 +120,11 @@ class PlayerTile extends StatelessWidget {
     this.clock,
     this.lowTime = false,
     this.rating,
+    this.avatar,
   });
+
+  /// Profile photo (online games). The king of the player's colour then sits on its corner.
+  final Widget? avatar;
 
   /// "4:59" — online games only.
   final String? clock;
@@ -148,16 +152,17 @@ class PlayerTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            width: 36,
-            height: 36,
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: side == Side.white ? Palette.boardLight : Palette.boardDark,
+          if (avatar == null)
+            _kingBadge(king, 36)
+          else
+            SizedBox(
+              width: 40,
+              height: 40,
+              child: Stack(clipBehavior: Clip.none, children: [
+                avatar!,
+                Positioned(right: -4, bottom: -4, child: _kingBadge(king, 20)),
+              ]),
             ),
-            child: Image(image: king),
-          ),
           const SizedBox(width: 12),
           // Name + badge take the free space, so the turn marker sits at the far right.
           Expanded(
@@ -226,4 +231,16 @@ class PlayerTile extends StatelessWidget {
       ),
     );
   }
+
+  Widget _kingBadge(ImageProvider king, double size) => Container(
+        width: size,
+        height: size,
+        padding: EdgeInsets.all(size / 9),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: side == Side.white ? Palette.boardLight : Palette.boardDark,
+          border: avatar == null ? null : Border.all(color: Palette.bgBottom, width: 1.5),
+        ),
+        child: Image(image: king),
+      );
 }

@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shaxmat/l10n/app_localizations.dart';
 import 'package:shaxmat/main_app.dart';
+import 'package:shaxmat/online/game_launcher.dart';
 import 'package:shaxmat/online/lobby_screen.dart';
 import 'package:shaxmat/online/online_client.dart';
 
@@ -31,18 +32,27 @@ class FakeServer implements OnlineTransport {
           'user': {
             'id': 'u1',
             'name': 'Guest-1',
-            'ratings': {
-              'bullet': {'rating': 1500, 'provisional': true},
-              'blitz': {'rating': 1500, 'provisional': true},
-              'rapid': {'rating': 1500, 'provisional': true},
-            },
+            'avatar': null,
+            'ratings': ratings(1500, provisional: true),
+            'stats': {'wins': 3, 'losses': 1, 'draws': 0},
           },
         });
-        push({'type': 'lobby:stats', 'onlineCount': 42});
+        push({'type': 'lobby:stats', 'onlineCount': onlineCount});
       case 'ping':
         push({'type': 'pong', 't': m['t'], 'serverTime': DateTime.now().millisecondsSinceEpoch});
+      case 'lobby:subscribe':
+        push({'type': 'lobby:players', 'onlineCount': onlineCount, 'players': lobby});
     }
+    onSent?.call(m);
   }
+
+  int onlineCount = 42;
+
+  /// What lobby:subscribe answers with.
+  List<Map<String, dynamic>> lobby = [];
+
+  /// Extra scripted replies.
+  void Function(Map<String, dynamic> m)? onSent;
 
   void push(Map<String, dynamic> m) => _in.add(jsonEncode({'v': 1, ...m}));
 
@@ -52,22 +62,45 @@ class FakeServer implements OnlineTransport {
   Future<void> close() async => _in.close();
 }
 
-Future<FakeServer> pumpLobby(WidgetTester tester) async {
+Map<String, dynamic> ratings(int blitz, {bool provisional = false}) => {
+      'bullet': {'rating': 1500, 'provisional': true},
+      'blitz': {'rating': blitz, 'provisional': provisional},
+      'rapid': {'rating': 1500, 'provisional': true},
+    };
+
+Map<String, dynamic> lobbyPlayer(String id, String name, String status, {int rating = 1600, int wins = 0}) => {
+      'id': id,
+      'name': name,
+      'avatar': null,
+      'status': status,
+      'ratings': ratings(rating),
+      'wins': wins,
+      'losses': 1,
+      'draws': 0,
+    };
+
+/// The lobby inside the real app shell (GameLauncher opens games and incoming challenges).
+/// [tab]: 0 players, 1 quick match, 2 leaderboard.
+Future<FakeServer> pumpLobby(WidgetTester tester, {int tab = 1, FakeServer? fake, String locale = 'en'}) async {
   tester.view.physicalSize = const Size(1080, 2340);
   tester.view.devicePixelRatio = 2.75;
   addTearDown(tester.view.reset);
   SharedPreferences.setMockInitialValues({});
   final prefs = await SharedPreferences.getInstance();
-  final server = FakeServer();
+  final server = fake ?? FakeServer();
   final client = OnlineClient(prefs: prefs, connector: (_) async => server);
+  final nav = GlobalKey<NavigatorState>();
   await tester.pumpWidget(OnlineScope(
     client: client,
     child: MaterialApp(
+      navigatorKey: nav,
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) => GameLauncher(navigatorKey: nav, child: child!),
       theme: appTheme(),
       localizationsDelegates: localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: const Locale('en'),
-      home: const LobbyScreen(),
+      locale: Locale(locale),
+      home: LobbyScreen(initialTab: tab),
     ),
   ));
   await tester.pumpAndSettle();

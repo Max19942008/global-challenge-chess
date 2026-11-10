@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../game/chess_game.dart';
 import '../l10n/app_localizations.dart';
 import '../screens/game_screen.dart' show oneLine, winnerText;
+import '../ui/avatar.dart';
 import '../ui/game_layout.dart';
 import '../ui/theme.dart';
 import '../ui/widgets.dart';
@@ -102,6 +103,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
       final mine = <String, dynamic>{
         'id': me?.id ?? '',
         'name': me?.name ?? '',
+        'avatar': me?.avatar,
         if (me != null) 'rating': me.ratings[ratingCategory(_timeControl)]?.rating,
         if (me != null) 'provisional': me.ratings[ratingCategory(_timeControl)]?.provisional,
       };
@@ -304,6 +306,7 @@ class _OnlineGameScreenState extends State<OnlineGameScreen> {
       active: _end == null && _turn == side,
       clock: formatClock(ms),
       lowTime: ms < 20000,
+      avatar: Avatar(name: '${info['name'] ?? ''}', url: _client.avatarUrl(info['avatar'] as String?), size: 40),
     );
   }
 

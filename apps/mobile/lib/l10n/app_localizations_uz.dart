@@ -264,4 +264,157 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get yourRating => 'Reytingingiz';
+
+  @override
+  String get tabPlayers => 'O\'yinchilar';
+
+  @override
+  String get tabQuickMatch => 'Tez o\'yin';
+
+  @override
+  String get tabLeaderboard => 'Reyting';
+
+  @override
+  String get statusWatching => 'Kuzatuvchi';
+
+  @override
+  String get statusReady => 'O\'ynashga tayyor';
+
+  @override
+  String get statusPlaying => 'O\'ynayapti';
+
+  @override
+  String get myStatus => 'Holatingiz';
+
+  @override
+  String get myStatusWatchingHint =>
+      'Faqat kuzatyapsiz. Sizni hech kim o\'yinga chaqira olmaydi.';
+
+  @override
+  String get myStatusReadyHint =>
+      'Lobbidagi o\'yinchilar sizni o\'yinga chaqira oladi.';
+
+  @override
+  String get nobodyElseOnline =>
+      'Hozir boshqa hech kim onlayn emas. Tez o\'yin yoki bot bilan o\'ynab ko\'ring.';
+
+  @override
+  String get challenge => 'Chaqirish';
+
+  @override
+  String challengeTitle(String name) {
+    return '${name}ni o\'yinga chaqirish';
+  }
+
+  @override
+  String get challengeSend => 'Chaqiruv yuborish';
+
+  @override
+  String challengeIncoming(String name) {
+    return '$name sizni o\'yinga chaqirmoqda';
+  }
+
+  @override
+  String challengeWaiting(String name) {
+    return '$name javobini kutyapmiz…';
+  }
+
+  @override
+  String challengeDeclined(String name) {
+    return '$name rad etdi';
+  }
+
+  @override
+  String get challengeExpired => 'Javob bo\'lmadi — chaqiruv muddati tugadi';
+
+  @override
+  String get challengeCancelled => 'Chaqiruv bekor qilindi';
+
+  @override
+  String get challengeUnavailable => 'Bu o\'yinchi hozir band';
+
+  @override
+  String get rated => 'Reytingli';
+
+  @override
+  String get casual => 'O\'rtoqlik';
+
+  @override
+  String statsLine(int wins, int losses, int draws) {
+    return '$wins G · $losses M · $draws D';
+  }
+
+  @override
+  String get wins => 'G\'alaba';
+
+  @override
+  String get losses => 'Mag\'lubiyat';
+
+  @override
+  String get draws => 'Durang';
+
+  @override
+  String get sortByRating => 'Reyting bo\'yicha';
+
+  @override
+  String get sortByWins => 'G\'alabalar bo\'yicha';
+
+  @override
+  String yourPlace(int rank) {
+    return 'Sizning o\'rningiz: $rank';
+  }
+
+  @override
+  String get leaderboardEmpty =>
+      'Bu yerda hali tugagan o\'yinlar yo\'q. Birinchi bo\'ling!';
+
+  @override
+  String get ratingExplained =>
+      'Reyting qancha baland bo\'lsa, o\'yinchi shuncha kuchli. Ko\'tarilish uchun reytingli o\'yinlarda yuting.';
+
+  @override
+  String get categoryBlitz => 'Blits';
+
+  @override
+  String get categoryRapid => 'Rapid';
+
+  @override
+  String get categoryBullet => 'Bullet';
+
+  @override
+  String get profile => 'Profil';
+
+  @override
+  String get profileName => 'Ism';
+
+  @override
+  String get profileNameHint => '2–24 belgi, boshqa o\'yinchilarga ko\'rinadi';
+
+  @override
+  String get addPhoto => 'Rasm qo\'shish';
+
+  @override
+  String get changePhoto => 'Rasmni o\'zgartirish';
+
+  @override
+  String get removePhoto => 'Rasmni o\'chirish';
+
+  @override
+  String get save => 'Saqlash';
+
+  @override
+  String get saved => 'Saqlandi';
+
+  @override
+  String get profileBadName => 'Ism 2–24 belgidan iborat bo\'lishi kerak.';
+
+  @override
+  String get profileBadPhoto =>
+      'Bu rasmni ishlatib bo\'lmadi. Boshqasini tanlang.';
+
+  @override
+  String get profileOffline => 'Profilni o\'zgartirish uchun serverga ulaning.';
+
+  @override
+  String get onlineGamesTitle => 'Onlayn o\'yinlar';
 }

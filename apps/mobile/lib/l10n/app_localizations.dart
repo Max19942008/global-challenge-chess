@@ -573,6 +573,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your rating'**
   String get yourRating;
+
+  /// No description provided for @tabPlayers.
+  ///
+  /// In en, this message translates to:
+  /// **'Players'**
+  String get tabPlayers;
+
+  /// No description provided for @tabQuickMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick match'**
+  String get tabQuickMatch;
+
+  /// No description provided for @tabLeaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get tabLeaderboard;
+
+  /// No description provided for @statusWatching.
+  ///
+  /// In en, this message translates to:
+  /// **'Watching'**
+  String get statusWatching;
+
+  /// No description provided for @statusReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to play'**
+  String get statusReady;
+
+  /// No description provided for @statusPlaying.
+  ///
+  /// In en, this message translates to:
+  /// **'Playing'**
+  String get statusPlaying;
+
+  /// No description provided for @myStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Your status'**
+  String get myStatus;
+
+  /// No description provided for @myStatusWatchingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Just looking. Nobody can challenge you.'**
+  String get myStatusWatchingHint;
+
+  /// No description provided for @myStatusReadyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Players in the lobby can challenge you.'**
+  String get myStatusReadyHint;
+
+  /// No description provided for @nobodyElseOnline.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody else is online right now. Try a quick match or play the bot.'**
+  String get nobodyElseOnline;
+
+  /// No description provided for @challenge.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge'**
+  String get challenge;
+
+  /// No description provided for @challengeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Challenge {name}'**
+  String challengeTitle(String name);
+
+  /// No description provided for @challengeSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send challenge'**
+  String get challengeSend;
+
+  /// No description provided for @challengeIncoming.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} challenges you'**
+  String challengeIncoming(String name);
+
+  /// No description provided for @challengeWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for {name}…'**
+  String challengeWaiting(String name);
+
+  /// No description provided for @challengeDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} declined'**
+  String challengeDeclined(String name);
+
+  /// No description provided for @challengeExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'No answer — the challenge expired'**
+  String get challengeExpired;
+
+  /// No description provided for @challengeCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'The challenge was cancelled'**
+  String get challengeCancelled;
+
+  /// No description provided for @challengeUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'That player is busy right now'**
+  String get challengeUnavailable;
+
+  /// No description provided for @rated.
+  ///
+  /// In en, this message translates to:
+  /// **'Rated'**
+  String get rated;
+
+  /// No description provided for @casual.
+  ///
+  /// In en, this message translates to:
+  /// **'Friendly'**
+  String get casual;
+
+  /// No description provided for @statsLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{wins} W · {losses} L · {draws} D'**
+  String statsLine(int wins, int losses, int draws);
+
+  /// No description provided for @wins.
+  ///
+  /// In en, this message translates to:
+  /// **'Wins'**
+  String get wins;
+
+  /// No description provided for @losses.
+  ///
+  /// In en, this message translates to:
+  /// **'Losses'**
+  String get losses;
+
+  /// No description provided for @draws.
+  ///
+  /// In en, this message translates to:
+  /// **'Draws'**
+  String get draws;
+
+  /// No description provided for @sortByRating.
+  ///
+  /// In en, this message translates to:
+  /// **'By rating'**
+  String get sortByRating;
+
+  /// No description provided for @sortByWins.
+  ///
+  /// In en, this message translates to:
+  /// **'By wins'**
+  String get sortByWins;
+
+  /// No description provided for @yourPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Your place: #{rank}'**
+  String yourPlace(int rank);
+
+  /// No description provided for @leaderboardEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No finished games here yet. Be the first!'**
+  String get leaderboardEmpty;
+
+  /// No description provided for @ratingExplained.
+  ///
+  /// In en, this message translates to:
+  /// **'Higher rating = stronger player. Win rated games to climb.'**
+  String get ratingExplained;
+
+  /// No description provided for @categoryBlitz.
+  ///
+  /// In en, this message translates to:
+  /// **'Blitz'**
+  String get categoryBlitz;
+
+  /// No description provided for @categoryRapid.
+  ///
+  /// In en, this message translates to:
+  /// **'Rapid'**
+  String get categoryRapid;
+
+  /// No description provided for @categoryBullet.
+  ///
+  /// In en, this message translates to:
+  /// **'Bullet'**
+  String get categoryBullet;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @profileName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get profileName;
+
+  /// No description provided for @profileNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'2–24 characters, shown to other players'**
+  String get profileNameHint;
+
+  /// No description provided for @addPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photo'**
+  String get addPhoto;
+
+  /// No description provided for @changePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Change photo'**
+  String get changePhoto;
+
+  /// No description provided for @removePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get removePhoto;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @saved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get saved;
+
+  /// No description provided for @profileBadName.
+  ///
+  /// In en, this message translates to:
+  /// **'The name must be 2–24 characters.'**
+  String get profileBadName;
+
+  /// No description provided for @profileBadPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'This photo could not be used. Try another one.'**
+  String get profileBadPhoto;
+
+  /// No description provided for @profileOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect to the server to change your profile.'**
+  String get profileOffline;
+
+  /// No description provided for @onlineGamesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Online games'**
+  String get onlineGamesTitle;
 }
 
 class _AppLocalizationsDelegate

@@ -9,8 +9,10 @@ import '../online/lobby_screen.dart';
 import '../online/online_client.dart';
 import '../ui/theme.dart';
 import '../ui/widgets.dart';
+import '../ui/avatar.dart';
 import 'game_screen.dart';
 import 'language_screen.dart';
+import 'profile_screen.dart';
 
 enum ColorChoice { white, random, black }
 
@@ -57,15 +59,25 @@ class _MenuScreenState extends State<MenuScreen> {
         child: SafeArea(
           child: LayoutBuilder(builder: (context, c) {
             final wide = c.maxWidth >= 900;
-            final langButton = Align(
-              alignment: Alignment.centerRight,
-              child: TextButton.icon(
+            final client = OnlineScope.of(context);
+            final user = client.user;
+            final langButton = Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+              TextButton.icon(
                 key: const ValueKey('open-language'),
                 onPressed: () => _open(const LanguageScreen()),
                 icon: const Icon(Icons.language_rounded),
                 label: Text(l.languageName),
               ),
-            );
+              if (user != null) ...[
+                const SizedBox(width: 4),
+                InkWell(
+                  key: const ValueKey('menu-profile'),
+                  customBorder: const CircleBorder(),
+                  onTap: () => _open(const ProfileScreen()),
+                  child: Avatar(name: user.name, url: client.avatarUrl(user.avatar), size: 38),
+                ),
+              ],
+            ]);
             final options = Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
               _onlineCard(l),
               const SizedBox(height: 14),

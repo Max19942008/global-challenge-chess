@@ -263,4 +263,154 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get yourRating => 'Your rating';
+
+  @override
+  String get tabPlayers => 'Players';
+
+  @override
+  String get tabQuickMatch => 'Quick match';
+
+  @override
+  String get tabLeaderboard => 'Leaderboard';
+
+  @override
+  String get statusWatching => 'Watching';
+
+  @override
+  String get statusReady => 'Ready to play';
+
+  @override
+  String get statusPlaying => 'Playing';
+
+  @override
+  String get myStatus => 'Your status';
+
+  @override
+  String get myStatusWatchingHint => 'Just looking. Nobody can challenge you.';
+
+  @override
+  String get myStatusReadyHint => 'Players in the lobby can challenge you.';
+
+  @override
+  String get nobodyElseOnline =>
+      'Nobody else is online right now. Try a quick match or play the bot.';
+
+  @override
+  String get challenge => 'Challenge';
+
+  @override
+  String challengeTitle(String name) {
+    return 'Challenge $name';
+  }
+
+  @override
+  String get challengeSend => 'Send challenge';
+
+  @override
+  String challengeIncoming(String name) {
+    return '$name challenges you';
+  }
+
+  @override
+  String challengeWaiting(String name) {
+    return 'Waiting for $name…';
+  }
+
+  @override
+  String challengeDeclined(String name) {
+    return '$name declined';
+  }
+
+  @override
+  String get challengeExpired => 'No answer — the challenge expired';
+
+  @override
+  String get challengeCancelled => 'The challenge was cancelled';
+
+  @override
+  String get challengeUnavailable => 'That player is busy right now';
+
+  @override
+  String get rated => 'Rated';
+
+  @override
+  String get casual => 'Friendly';
+
+  @override
+  String statsLine(int wins, int losses, int draws) {
+    return '$wins W · $losses L · $draws D';
+  }
+
+  @override
+  String get wins => 'Wins';
+
+  @override
+  String get losses => 'Losses';
+
+  @override
+  String get draws => 'Draws';
+
+  @override
+  String get sortByRating => 'By rating';
+
+  @override
+  String get sortByWins => 'By wins';
+
+  @override
+  String yourPlace(int rank) {
+    return 'Your place: #$rank';
+  }
+
+  @override
+  String get leaderboardEmpty => 'No finished games here yet. Be the first!';
+
+  @override
+  String get ratingExplained =>
+      'Higher rating = stronger player. Win rated games to climb.';
+
+  @override
+  String get categoryBlitz => 'Blitz';
+
+  @override
+  String get categoryRapid => 'Rapid';
+
+  @override
+  String get categoryBullet => 'Bullet';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get profileName => 'Name';
+
+  @override
+  String get profileNameHint => '2–24 characters, shown to other players';
+
+  @override
+  String get addPhoto => 'Add photo';
+
+  @override
+  String get changePhoto => 'Change photo';
+
+  @override
+  String get removePhoto => 'Remove photo';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get saved => 'Saved';
+
+  @override
+  String get profileBadName => 'The name must be 2–24 characters.';
+
+  @override
+  String get profileBadPhoto =>
+      'This photo could not be used. Try another one.';
+
+  @override
+  String get profileOffline => 'Connect to the server to change your profile.';
+
+  @override
+  String get onlineGamesTitle => 'Online games';
 }
