@@ -4,7 +4,7 @@
 Global Challenge Chess
 
 ## Qisqa tavsif (max 80)
-Dunyo bo'ylab odamlar bilan onlayn shaxmat yoki internetsiz bot bilan mashq.
+Dunyo bo'ylab odamlar bilan onlayn shaxmat yoki internetsiz AI bilan mashq.
 
 ## To'liq tavsif (max 4000)
 Global Challenge Chess — hamma uchun shaxmat: dunyoning turli burchaklaridagi haqiqiy o'yinchilar bilan kuchingizni sinang yoki internetsiz kuchli shaxmat dasturi bilan mashq qiling.
@@ -15,11 +15,12 @@ ONLAYN O'YIN
 • Soat serverda yuradi — vaqt ikkala o'yinchi uchun ham adolatli
 • Internet uzildimi? O'yiningizga avtomatik qaytasiz
 • Durang taklif qiling, taslim bo'ling yoki raqib chiqib ketsa g'alabani oling
-• Hozir bo'sh raqib yo'qmi? Qidiruv davom etar ekan, bot bilan o'ynang
+• Hozir bo'sh raqib yo'qmi? Qidiruv davom etar ekan, AI bilan o'ynang
 
-BOT BILAN
+AI BILAN
 • Stockfish dasturi telefoningizning o'zida ishlaydi — internet kerak emas
 • Uch daraja: Boshlovchi, O'rta va Kuchli
+• AI odamdek o'ylab yuradi — har yurishdan oldin biroz o'ylanadi
 • Oq, qora yoki tasodifiy rangni tanlang
 • Yurishni qaytaring va xatolaringizdan o'rganing
 

@@ -117,6 +117,7 @@ class PlayerTile extends StatelessWidget {
     required this.active,
     this.isBot = false,
     this.thinking = false,
+    this.thinkingText,
     this.clock,
     this.lowTime = false,
     this.rating,
@@ -138,6 +139,9 @@ class PlayerTile extends StatelessWidget {
   final bool active;
   final bool isBot;
   final bool thinking;
+
+  /// Shown under the name while [thinking], e.g. "thinking…".
+  final String? thinkingText;
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +170,8 @@ class PlayerTile extends StatelessWidget {
           const SizedBox(width: 12),
           // Name + badge take the free space, so the turn marker sits at the far right.
           Expanded(
-            child: Row(children: [
+            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(children: [
               Flexible(
                 child: Text(
                   name,
@@ -183,11 +188,18 @@ class PlayerTile extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 3),
                   decoration: BoxDecoration(gradient: Palette.goldGradient, borderRadius: BorderRadius.circular(6)),
-                  child: const Text('BOT',
+                  child: const Text('AI',
                       style: TextStyle(
                           fontSize: 11, fontWeight: FontWeight.w800, color: Palette.bgTop, letterSpacing: 0.6)),
                 ),
               ],
+              ]),
+              if (thinking && thinkingText != null)
+                Text(
+                  thinkingText!,
+                  key: const ValueKey('thinking-text'),
+                  style: const TextStyle(color: Palette.gold, fontSize: 13, fontWeight: FontWeight.w600),
+                ),
             ]),
           ),
           const SizedBox(width: 8),

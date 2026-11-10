@@ -22,10 +22,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get language => 'Language';
 
   @override
-  String get menuSubtitle => 'Train with the bot. Challenge your friends.';
+  String get menuSubtitle => 'Train with the AI. Challenge your friends.';
 
   @override
-  String get vsBot => 'Play the bot';
+  String get vsBot => 'Play the AI';
 
   @override
   String get twoPlayers => 'Two players';
@@ -58,7 +58,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get start => 'Start';
 
   @override
-  String get botNote => 'The bot runs on your phone. No internet needed.';
+  String get botNote => 'The AI runs on your phone. No internet needed.';
 
   @override
   String get twoPlayersNote => 'Take turns on one phone.';
@@ -71,7 +71,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String botName(String level) {
-    return 'Bot · $level';
+    return 'AI · $level';
   }
 
   @override
@@ -159,7 +159,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gameOverTitle => 'Game over';
 
   @override
-  String get botLevelHint => 'Bot strength';
+  String get botLevelHint => 'AI strength';
 
   @override
   String get playOnline => 'Play online';
@@ -194,7 +194,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get botOfferBody =>
-      'Play the bot instead? We keep searching until you decide.';
+      'Play the AI instead? We keep searching until you decide.';
 
   @override
   String get keepSearching => 'Keep searching';
@@ -293,7 +293,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nobodyElseOnline =>
-      'Nobody else is online right now. Try a quick match or play the bot.';
+      'Nobody else is online right now. Try a quick match or play the AI.';
 
   @override
   String get challenge => 'Challenge';

@@ -4,7 +4,7 @@
 Global Challenge Chess
 
 ## Short description (max 80)
-Play chess online against people worldwide, or train with an offline bot.
+Play chess online against people worldwide, or train with an offline AI.
 
 ## Full description (max 4000)
 Global Challenge Chess is chess for everyone: test yourself against real players from around the world, or practise offline against a strong chess engine.
@@ -15,11 +15,12 @@ PLAY ONLINE
 • Server-side clocks, so time is fair for both players
 • Lost connection? Come back to your game automatically
 • Offer a draw, resign, or claim the win if your opponent leaves
-• No one free right now? Play the bot while you keep searching
+• No one free right now? Play the AI while you keep searching
 
-PLAY THE BOT
+PLAY THE AI
 • Stockfish engine runs right on your phone, no internet needed
 • Three levels: Beginner, Intermediate and Strong
+• The AI takes its time like a person, thinking before each move
 • Choose white, black or random
 • Undo moves and learn from your mistakes
 

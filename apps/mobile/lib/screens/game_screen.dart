@@ -3,6 +3,7 @@ import 'package:dartchess/dartchess.dart';
 import 'package:flutter/material.dart';
 
 import '../engine/bot.dart';
+import '../engine/think_time.dart';
 import '../game/chess_game.dart';
 import '../l10n/app_localizations.dart';
 import '../ui/game_layout.dart';
@@ -11,11 +12,20 @@ import 'menu_screen.dart' show levelLabel;
 
 /// null [botLevel] = two players on one device.
 class GameScreen extends StatefulWidget {
-  const GameScreen({super.key, this.botLevel, this.playerSide = Side.white, this.botFactory = StockfishBot.start});
+  const GameScreen({
+    super.key,
+    this.botLevel,
+    this.playerSide = Side.white,
+    this.botFactory = StockfishBot.start,
+    this.thinkTime = humanThinkTime,
+  });
 
   final BotLevel? botLevel;
   final Side playerSide;
   final BotFactory botFactory;
+
+  /// The AI's pause before each move, so it plays like a person rather than instantly.
+  final ThinkTime thinkTime;
 
   bool get vsBot => botLevel != null;
 
@@ -138,7 +148,11 @@ class _GameScreenState extends State<GameScreen> {
     setState(() => _thinking = true);
     _refresh();
     try {
-      final uci = await bot.bestMove(_game.position.fen, botLevels[widget.botLevel]!.movetimeMs);
+      final level = widget.botLevel!;
+      // The engine searches while the AI "thinks"; the move comes after whichever takes longer.
+      final pause = Future<void>.delayed(widget.thinkTime(_game.position, _game.ply, level));
+      final uci = await bot.bestMove(_game.position.fen, botLevels[level]!.movetimeMs);
+      await pause;
       if (!mounted || epoch != _epoch) return;
       if (uci != null) _game.playUci(uci);
     } catch (e) {
@@ -189,8 +203,9 @@ class _GameScreenState extends State<GameScreen> {
       side: side,
       name: name,
       active: !status.over && status.turn == side,
-      isBot: isBot,
+      // The name already says "AI · <level>", so no extra badge.
       thinking: _thinking && isBot,
+      thinkingText: l.thinking,
     );
   }
 

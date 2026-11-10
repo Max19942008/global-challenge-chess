@@ -22,10 +22,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get language => 'Язык';
 
   @override
-  String get menuSubtitle => 'Тренируйтесь с ботом. Бросайте вызов друзьям.';
+  String get menuSubtitle => 'Тренируйтесь с ИИ. Бросайте вызов друзьям.';
 
   @override
-  String get vsBot => 'С ботом';
+  String get vsBot => 'С ИИ';
 
   @override
   String get twoPlayers => 'Вдвоём';
@@ -58,7 +58,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get start => 'Начать';
 
   @override
-  String get botNote => 'Бот работает на вашем телефоне, интернет не нужен.';
+  String get botNote => 'ИИ работает на вашем телефоне, интернет не нужен.';
 
   @override
   String get twoPlayersNote => 'Играйте по очереди на одном телефоне.';
@@ -71,7 +71,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String botName(String level) {
-    return 'Бот · $level';
+    return 'ИИ · $level';
   }
 
   @override
@@ -159,7 +159,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get gameOverTitle => 'Партия окончена';
 
   @override
-  String get botLevelHint => 'Сила бота';
+  String get botLevelHint => 'Сила ИИ';
 
   @override
   String get playOnline => 'Играть онлайн';
@@ -194,7 +194,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get botOfferBody =>
-      'Сыграть с ботом? Пока вы решаете, поиск продолжается.';
+      'Сыграть с ИИ? Пока вы решаете, поиск продолжается.';
 
   @override
   String get keepSearching => 'Продолжить поиск';
@@ -294,7 +294,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get nobodyElseOnline =>
-      'Сейчас больше никого нет онлайн. Попробуйте быструю игру или бота.';
+      'Сейчас больше никого нет онлайн. Попробуйте быструю игру или ИИ.';
 
   @override
   String get challenge => 'Вызвать';

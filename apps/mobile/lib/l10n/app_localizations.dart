@@ -127,13 +127,13 @@ abstract class AppLocalizations {
   /// No description provided for @menuSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Train with the bot. Challenge your friends.'**
+  /// **'Train with the AI. Challenge your friends.'**
   String get menuSubtitle;
 
   /// No description provided for @vsBot.
   ///
   /// In en, this message translates to:
-  /// **'Play the bot'**
+  /// **'Play the AI'**
   String get vsBot;
 
   /// No description provided for @twoPlayers.
@@ -199,7 +199,7 @@ abstract class AppLocalizations {
   /// No description provided for @botNote.
   ///
   /// In en, this message translates to:
-  /// **'The bot runs on your phone. No internet needed.'**
+  /// **'The AI runs on your phone. No internet needed.'**
   String get botNote;
 
   /// No description provided for @twoPlayersNote.
@@ -223,7 +223,7 @@ abstract class AppLocalizations {
   /// No description provided for @botName.
   ///
   /// In en, this message translates to:
-  /// **'Bot · {level}'**
+  /// **'AI · {level}'**
   String botName(String level);
 
   /// No description provided for @thinking.
@@ -385,7 +385,7 @@ abstract class AppLocalizations {
   /// No description provided for @botLevelHint.
   ///
   /// In en, this message translates to:
-  /// **'Bot strength'**
+  /// **'AI strength'**
   String get botLevelHint;
 
   /// No description provided for @playOnline.
@@ -445,7 +445,7 @@ abstract class AppLocalizations {
   /// No description provided for @botOfferBody.
   ///
   /// In en, this message translates to:
-  /// **'Play the bot instead? We keep searching until you decide.'**
+  /// **'Play the AI instead? We keep searching until you decide.'**
   String get botOfferBody;
 
   /// No description provided for @keepSearching.
@@ -631,7 +631,7 @@ abstract class AppLocalizations {
   /// No description provided for @nobodyElseOnline.
   ///
   /// In en, this message translates to:
-  /// **'Nobody else is online right now. Try a quick match or play the bot.'**
+  /// **'Nobody else is online right now. Try a quick match or play the AI.'**
   String get nobodyElseOnline;
 
   /// No description provided for @challenge.

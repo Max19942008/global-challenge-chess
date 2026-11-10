@@ -23,10 +23,10 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get menuSubtitle =>
-      'Bot bilan mashq qiling. Do\'stlaringiz bilan bellashing.';
+      'AI bilan mashq qiling. Do\'stlaringiz bilan bellashing.';
 
   @override
-  String get vsBot => 'Bot bilan';
+  String get vsBot => 'AI bilan';
 
   @override
   String get twoPlayers => 'Ikki kishi';
@@ -59,7 +59,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get start => 'Boshlash';
 
   @override
-  String get botNote => 'Bot telefoningizda ishlaydi, internet kerak emas.';
+  String get botNote => 'AI telefoningizda ishlaydi, internet kerak emas.';
 
   @override
   String get twoPlayersNote => 'Bitta telefonda navbatma-navbat o\'ynang.';
@@ -72,11 +72,11 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String botName(String level) {
-    return 'Bot · $level';
+    return 'AI · $level';
   }
 
   @override
-  String get thinking => 'o\'ylamoqda…';
+  String get thinking => 'o\'ylayapti…';
 
   @override
   String get sideWhite => 'Oqlar';
@@ -160,7 +160,7 @@ class AppLocalizationsUz extends AppLocalizations {
   String get gameOverTitle => 'O\'yin tugadi';
 
   @override
-  String get botLevelHint => 'Bot kuchi';
+  String get botLevelHint => 'AI kuchi';
 
   @override
   String get playOnline => 'Onlayn o\'ynash';
@@ -195,7 +195,7 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get botOfferBody =>
-      'Bot bilan o\'ynaysizmi? Qaror qilguningizcha qidiruv davom etadi.';
+      'AI bilan o\'ynaysizmi? Qaror qilguningizcha qidiruv davom etadi.';
 
   @override
   String get keepSearching => 'Qidirishda davom etish';
@@ -296,7 +296,7 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get nobodyElseOnline =>
-      'Hozir boshqa hech kim onlayn emas. Tez o\'yin yoki bot bilan o\'ynab ko\'ring.';
+      'Hozir boshqa hech kim onlayn emas. Tez o\'yin yoki AI bilan o\'ynab ko\'ring.';
 
   @override
   String get challenge => 'Chaqirish';

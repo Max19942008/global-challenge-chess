@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shaxmat/engine/bot.dart';
+import 'package:shaxmat/engine/think_time.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shaxmat/l10n/app_localizations.dart';
 import 'package:shaxmat/locale_controller.dart';
@@ -141,7 +142,7 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('lang-ru')));
     await tester.pumpAndSettle();
     expect(find.text('Global Challenge Chess'), findsOneWidget);
-    expect(find.text('С ботом'), findsOneWidget);
+    expect(find.text('С ИИ'), findsOneWidget);
     expect(find.text('Вдвоём'), findsOneWidget);
     expect(controller.locale, const Locale('ru'));
     final prefs = await SharedPreferences.getInstance();
@@ -152,7 +153,7 @@ void main() {
   testWidgets('a saved language opens straight into the menu', (tester) async {
     await pumpApp(tester, saved: {'locale': 'en'});
     expect(find.text('Choose your language'), findsNothing);
-    expect(find.text('Play the bot'), findsOneWidget);
+    expect(find.text('Play the AI'), findsOneWidget);
     for (final l in ['Beginner', 'Intermediate', 'Strong']) {
       expect(find.text(l), findsOneWidget);
     }
@@ -161,12 +162,12 @@ void main() {
 
   testWidgets('language can be changed from the menu', (tester) async {
     await pumpApp(tester, saved: {'locale': 'uz'});
-    expect(find.text('Bot bilan'), findsOneWidget);
+    expect(find.text('AI bilan'), findsOneWidget);
     await tester.tap(find.byKey(const ValueKey('open-language')));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const ValueKey('lang-en')));
     await tester.pumpAndSettle();
-    expect(find.text('Play the bot'), findsOneWidget);
+    expect(find.text('Play the AI'), findsOneWidget);
   });
 
   testWidgets('game status in Russian and English', (tester) async {
@@ -246,12 +247,11 @@ void main() {
     final bot = FakeBot(['e2e4', 'g1f3']);
     await pumpScreen(
       tester,
-      GameScreen(botLevel: BotLevel.intermediate, playerSide: Side.black, botFactory: () async => bot),
+      GameScreen(botLevel: BotLevel.intermediate, playerSide: Side.black, botFactory: () async => bot, thinkTime: noThinkTime),
     );
     expect(bot.levels, [BotLevel.intermediate]);
     expect(find.text('1. e4'), findsOneWidget);
-    expect(find.text('Bot · O\'rta'), findsOneWidget);
-    expect(find.text('BOT'), findsOneWidget);
+    expect(find.text('AI · O\'rta'), findsOneWidget);
 
     await move(tester, 'e7', 'e5', orientation: Side.black);
     expect(find.text('e5'), findsOneWidget);
@@ -267,9 +267,38 @@ void main() {
     expect(find.text('e5'), findsNothing);
   });
 
+  testWidgets('the AI thinks before it moves, and says so', (tester) async {
+    final bot = FakeBot(['e7e5']);
+    await pumpScreen(
+      tester,
+      GameScreen(
+        botLevel: BotLevel.beginner,
+        botFactory: () async => bot,
+        thinkTime: (_, _, _) => const Duration(seconds: 3),
+      ),
+    );
+    await tapSquare(tester, 'e2');
+    // The spinner never settles, so pump by hand from here.
+    final board = find.byType(Chessboard);
+    final square = tester.getSize(board).width / 8;
+    await tester.tapAt(tester.getTopLeft(board) + Offset(4.5 * square, 4.5 * square)); // e4
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('1. e4'), findsOneWidget);
+    expect(find.text("o'ylayapti…"), findsOneWidget);
+    expect(find.text('e5'), findsNothing, reason: 'the engine has answered, but the AI is still thinking');
+    await expectLater(find.byType(MaterialApp).first, matchesGoldenFile('screens/4b-ai-thinking.png'));
+
+    await tester.pump(const Duration(seconds: 2));
+    expect(find.text('e5'), findsNothing);
+    await tester.pump(const Duration(seconds: 1));
+    await tester.pumpAndSettle();
+    expect(find.text('e5'), findsOneWidget);
+    expect(find.text("o'ylayapti…"), findsNothing);
+  });
+
   testWidgets("player can't move the bot's pieces", (tester) async {
     final bot = FakeBot(['e7e5']);
-    await pumpScreen(tester, GameScreen(botLevel: BotLevel.beginner, botFactory: () async => bot));
+    await pumpScreen(tester, GameScreen(botLevel: BotLevel.beginner, botFactory: () async => bot, thinkTime: noThinkTime));
     await move(tester, 'e7', 'e6'); // black piece, player is white
     expect(find.text("Hali yurish yo'q"), findsOneWidget);
     await move(tester, 'e2', 'e4');
@@ -279,7 +308,7 @@ void main() {
 
   testWidgets('resign and new game', (tester) async {
     final bot = FakeBot();
-    await pumpScreen(tester, GameScreen(botLevel: BotLevel.strong, botFactory: () async => bot));
+    await pumpScreen(tester, GameScreen(botLevel: BotLevel.strong, botFactory: () async => bot, thinkTime: noThinkTime));
     await move(tester, 'd2', 'd4');
     await tester.tap(find.text('Taslim'));
     await tester.pumpAndSettle();
@@ -292,7 +321,7 @@ void main() {
 
   testWidgets('engine is disposed when leaving the screen', (tester) async {
     final bot = FakeBot();
-    await pumpScreen(tester, GameScreen(botLevel: BotLevel.beginner, botFactory: () async => bot));
+    await pumpScreen(tester, GameScreen(botLevel: BotLevel.beginner, botFactory: () async => bot, thinkTime: noThinkTime));
     await tester.pumpWidget(const SizedBox());
     expect(bot.disposed, isTrue);
   });
@@ -300,7 +329,7 @@ void main() {
   testWidgets('desktop: menu uses the two-column layout', (tester) async {
     await pumpApp(tester, saved: {'locale': 'en'}, desktop: true);
     await settleImages(tester);
-    expect(find.text('Play the bot'), findsOneWidget);
+    expect(find.text('Play the AI'), findsOneWidget);
     expect(tester.takeException(), isNull);
     await expectLater(find.byType(MaterialApp), matchesGoldenFile('screens/5-desktop-menu.png'));
   });
@@ -309,7 +338,7 @@ void main() {
     final bot = FakeBot(['e2e4', 'g1f3', 'f1c4']);
     await pumpScreen(
       tester,
-      GameScreen(botLevel: BotLevel.strong, playerSide: Side.black, botFactory: () async => bot),
+      GameScreen(botLevel: BotLevel.strong, playerSide: Side.black, botFactory: () async => bot, thinkTime: noThinkTime),
       locale: 'en',
       desktop: true,
     );
