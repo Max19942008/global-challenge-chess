@@ -1,0 +1,21 @@
+# Site block for the MotoHub Caddy (copied to ~/apps/motohub/caddy-sites/ on the VPS).
+# CHESS_DOMAIN is set in the MotoHub .env.
+{$CHESS_DOMAIN} {
+	encode gzip
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options nosniff
+		-Server
+	}
+	# Online games: WebSocket to the game server
+	handle /ws* {
+		reverse_proxy chess-server:8080
+	}
+	handle /health {
+		reverse_proxy chess-server:8080
+	}
+	# Flutter web build (static files)
+	handle {
+		reverse_proxy chess-web:80
+	}
+}

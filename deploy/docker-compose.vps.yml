@@ -1,0 +1,51 @@
+# Production on the shared VPS (next to MotoHub). The MotoHub Caddy owns ports
+# 80/443 and proxies the chess domain here over the motohub_default network:
+#   https://$CHESS_DOMAIN      -> chess-web (Flutter web build, static files)
+#   wss://$CHESS_DOMAIN/ws     -> chess-server
+# Nothing is published on the host. From this folder on the server:
+#   docker compose -f docker-compose.vps.yml up -d --build
+# .env next to this file: TOKEN_SECRET, POSTGRES_PASSWORD (see README.md).
+name: chess
+services:
+  chess-server:
+    build:
+      context: ..
+      dockerfile: apps/server/Dockerfile
+    container_name: chess-server
+    restart: unless-stopped
+    environment:
+      PORT: "8080"
+      REDIS_URL: redis://chess-redis:6379
+      DATABASE_URL: postgres://shaxmat:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@chess-postgres:5432/shaxmat
+      TOKEN_SECRET: ${TOKEN_SECRET:?set TOKEN_SECRET}
+    depends_on: [chess-redis, chess-postgres]
+    networks: [default, motohub]
+  chess-redis:
+    image: redis:7.4-alpine
+    container_name: chess-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redis-data:/data]
+  chess-postgres:
+    image: postgres:17-alpine
+    container_name: chess-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: shaxmat
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: shaxmat
+    volumes: [pg-data:/var/lib/postgresql/data]
+  chess-web:
+    image: caddy:2-alpine
+    container_name: chess-web
+    restart: unless-stopped
+    command: ["caddy", "file-server", "--root", "/srv", "--listen", ":80"]
+    volumes: [./web:/srv:ro]
+    networks: [motohub]
+volumes:
+  redis-data:
+  pg-data:
+networks:
+  motohub:
+    external: true
+    name: motohub_default
