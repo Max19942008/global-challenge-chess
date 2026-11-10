@@ -1,5 +1,8 @@
 # VPS deploy
 
+(`apps/server/deploy.sh` is the other route: a dedicated VPS where the game server
+runs its own Caddy on 80/443. Use this folder when sharing the MotoHub VPS.)
+
 Runs on the same VPS as MotoHub (`ubuntu@43.202.41.127`, folder `~/apps/chess`).
 MotoHub's Caddy holds ports 80/443 and gets HTTPS certificates; this project adds
 one site file to it.
@@ -29,12 +32,17 @@ Redis and Postgres are only on the project's internal network.
 
 ## Each release
 
-Build the web app on a PC (WASM is required by dartchess):
+Build the web app on a PC. `flutter build web --wasm` also compiles a JavaScript
+fallback, and dartchess cannot compile to JavaScript (64-bit integer literals),
+so build through `flutter run`, which makes the WASM version only:
 
 ```bash
 cd apps/mobile
-flutter build web --wasm --release --dart-define=SERVER_URL=wss://<domain>/ws
+flutter run -d web-server --release --wasm --web-port 8099 --dart-define=SERVER_URL=wss://<domain>/ws
+# wait for "is being served", press q; the files are in build/web
 ```
+
+Browsers without WebAssembly GC (old Safari) cannot open the web version.
 
 Copy the repository (without `node_modules`) and `apps/mobile/build/web` to
 `~/apps/chess` / `~/apps/chess/deploy/web`, then:
