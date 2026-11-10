@@ -11,3 +11,6 @@ CLAUDE.md
 
 # Server secrets (created on the server by deploy.sh)
 apps/server/.env
+
+# Golden test diffs (flutter test writes these on failure)
+apps/mobile/test/failures/
