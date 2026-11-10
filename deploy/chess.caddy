@@ -19,3 +19,8 @@
 		reverse_proxy chess-web:80
 	}
 }
+
+# www -> bare domain
+www.{$CHESS_DOMAIN} {
+	redir https://{$CHESS_DOMAIN}{uri} permanent
+}
