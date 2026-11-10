@@ -27,14 +27,18 @@ Tables are created on start (`CREATE TABLE IF NOT EXISTS`).
 
 ## Deploy (one VPS with Docker)
 
+Any Linux VPS (AWS EC2/Lightsail, Hetzner…) with ports 22, 80 and 443 open. From the repo root:
+
 ```bash
-export TOKEN_SECRET=$(openssl rand -hex 32) POSTGRES_PASSWORD=$(openssl rand -hex 16)
-docker compose -f apps/server/docker-compose.yml up -d --build
+apps/server/deploy.sh ubuntu@<server IP>                    # no domain yet: wss://<IP>.sslip.io
+apps/server/deploy.sh ubuntu@<server IP> chess.example.uz   # with a domain (A record -> server IP)
+SSH_KEY=path/to/key.pem apps/server/deploy.sh ubuntu@<IP>   # with an AWS .pem key
 ```
 
-Put it behind HTTPS (Caddy / nginx / a cloud load balancer) so clients connect with `wss://`.
-Several server containers can share one Redis: moves travel over Redis pub/sub (`game:{id}`, `user:{id}`),
-matchmaking is guarded by a Redis lock, and timers live in a Redis sorted set.
+It installs Docker, clones/updates the repo in `/opt/global-challenge-chess`, creates
+`apps/server/.env` with `TOKEN_SECRET` and `POSTGRES_PASSWORD` once (kept on later runs), and starts
+server + Redis + Postgres + Caddy (`docker-compose.yml`). Caddy gets the HTTPS certificate itself.
+Run it again after every push to update. The server port 8080 is bound to localhost only.
 
 ## Source layout (`src/`)
 

@@ -1,0 +1,6 @@
+# HTTPS in front of the game server. Caddy gets and renews the certificate itself.
+# DOMAIN comes from apps/server/.env, e.g. chess.example.uz or 1.2.3.4.sslip.io (no domain yet).
+{$DOMAIN} {
+	encode gzip
+	reverse_proxy server:8080
+}
