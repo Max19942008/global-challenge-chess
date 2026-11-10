@@ -14,6 +14,10 @@ export interface Delays {
   timerTickMs: number;
   waitingEveryMs: number;
   statsEveryMs: number;
+  /** Lobby subscribers get lobby:players at most this often after a change. */
+  lobbyPushMs: number;
+  /** An unanswered challenge expires after this long. */
+  challengeMs: number;
   /** Rating window grows with time in queue: thresholds (ms) and ranges (rating points); past the last threshold anyone matches. */
   windowAfterMs: [number, number, number];
   windowRange: [number, number, number];
@@ -28,6 +32,8 @@ export const defaultDelays: Delays = {
   timerTickMs: 150,
   waitingEveryMs: 2_000,
   statsEveryMs: 5_000,
+  lobbyPushMs: 500,
+  challengeMs: 60_000,
   windowAfterMs: [5_000, 15_000, 30_000],
   windowRange: [100, 200, 400],
 };

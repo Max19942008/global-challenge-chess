@@ -36,6 +36,24 @@ Put it behind HTTPS (Caddy / nginx / a cloud load balancer) so clients connect w
 Several server containers can share one Redis: moves travel over Redis pub/sub (`game:{id}`, `user:{id}`),
 matchmaking is guarded by a Redis lock, and timers live in a Redis sorted set.
 
+## Source layout (`src/`)
+
+| File | What's in it |
+| --- | --- |
+| `index.ts` | Reads env vars, starts the server |
+| `server.ts` | Wires the modules, HTTP + WebSocket, the loops |
+| `router.ts` | Sign-in/sign-out and the message switch |
+| `context.ts` | Shared plumbing: Redis, DB, delivery to users/games, locks |
+| `users.ts` | Users, ratings, profile (name + photo) |
+| `lobby.ts` | Who's online and their status (watching / ready / playing) |
+| `queue.ts` | Random matchmaking by rating, bot offer |
+| `challenges.ts` | Direct challenges between lobby players |
+| `games.ts` | Live games: moves, clocks, draw/resign, end of game, saving |
+| `timers.ts` | Flag / abort / grace / challenge-expiry deadlines |
+| `leaderboard.ts` | Top players by rating or wins |
+| `http.ts` | `/health`, `/avatar/:id` |
+| `db.ts`, `redis.ts`, `auth.ts`, `rating.ts`, `config.ts` | Storage, tokens, Glicko-2, timings |
+
 ## Design notes
 
 - **Server is the only source of truth.** Clients send intents (`game:move` with `ply`), the server

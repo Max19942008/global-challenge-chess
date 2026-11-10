@@ -25,6 +25,8 @@ export async function testServer(extra: ServerOptions = {}): Promise<RunningServ
       timerTickMs: 20,
       waitingEveryMs: 100,
       statsEveryMs: 200,
+      lobbyPushMs: 30,
+      challengeMs: 400,
       windowAfterMs: [100, 200, 300],
       windowRange: [100, 200, 400],
       ...extra.delays,

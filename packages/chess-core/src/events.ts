@@ -19,6 +19,12 @@ export interface Clocks {
 export type TimeControlId = string;
 export type RatingCategory = 'bullet' | 'blitz' | 'rapid';
 
+/**
+ * Avatar URL path on the game server's HTTP side, e.g. "/avatar/<id>?v=3"; null = no photo
+ * (show initials). Clients turn ws(s)://host into http(s)://host and append this path.
+ */
+export type AvatarPath = string | null;
+
 export interface PlayerInfo {
   id: string;
   name: string;
@@ -26,13 +32,54 @@ export interface PlayerInfo {
   /** Rating deviation is still high: show the rating with a "?". */
   provisional?: boolean;
   isBot?: boolean;
+  avatar?: AvatarPath;
+}
+
+export type Ratings = Record<RatingCategory, { rating: number; provisional: boolean }>;
+
+/** Finished online games, any reason except "aborted". */
+export interface GameStats {
+  wins: number;
+  losses: number;
+  draws: number;
 }
 
 export interface UserInfo {
   id: string;
   name: string;
-  ratings: Record<RatingCategory, { rating: number; provisional: boolean }>;
+  avatar: AvatarPath;
+  ratings: Ratings;
+  stats: GameStats;
 }
+
+/**
+ * watching: in the app, not taking challenges. ready: others may challenge them.
+ * playing: has an online game in progress (set by the server, never by the client).
+ */
+export type PresenceStatus = 'watching' | 'ready' | 'playing';
+
+export interface LobbyPlayer extends GameStats {
+  id: string;
+  name: string;
+  avatar: AvatarPath;
+  status: PresenceStatus;
+  ratings: Ratings;
+}
+
+export type LeaderboardSort = 'rating' | 'wins';
+
+export interface LeaderboardEntry extends GameStats {
+  rank: number;
+  id: string;
+  name: string;
+  avatar: AvatarPath;
+  rating: number;
+  provisional: boolean;
+  /** Rated games in this category. */
+  games: number;
+}
+
+export type ChallengeClosedReason = 'accepted' | 'declined' | 'cancelled' | 'expired' | 'unavailable';
 
 export type ClientMessage =
   /** First contact without an account: the server creates a guest and returns a token. */
@@ -51,7 +98,18 @@ export type ClientMessage =
   | Msg<'game:drawRespond', { gameId: string; accept: boolean }>
   | Msg<'game:sync', { gameId: string }>
   /** Allowed only after opponent:abandoned for this game. */
-  | Msg<'game:claimVictory', { gameId: string }>;
+  | Msg<'game:claimVictory', { gameId: string }>
+  /** Change name and/or photo. avatar: base64 JPEG/PNG/WebP (≤ 150 KB decoded), null removes it. */
+  | Msg<'profile:update', { name?: string; avatar?: string | null }>
+  /** Start/stop receiving lobby:players (send while the lobby screen is open). */
+  | Msg<'lobby:subscribe'>
+  | Msg<'lobby:unsubscribe'>
+  | Msg<'lobby:status', { status: 'watching' | 'ready' }>
+  /** Only to a player whose status is "ready". One open challenge per sender; a new one replaces it. */
+  | Msg<'challenge:send', { to: string; timeControl: TimeControlId; rated: boolean }>
+  | Msg<'challenge:respond', { challengeId: string; accept: boolean }>
+  | Msg<'challenge:cancel', { challengeId: string }>
+  | Msg<'leaderboard:get', { category?: RatingCategory; sort?: LeaderboardSort }>;
 
 export type ServerMessage =
   | Msg<'auth:ok', { token: string; user: UserInfo }>
@@ -110,4 +168,13 @@ export type ServerMessage =
   | Msg<'opponent:reconnected', { gameId: string }>
   /** Grace period ran out: the receiver may now send game:claimVictory (or keep waiting). */
   | Msg<'opponent:abandoned', { gameId: string }>
+  | Msg<'profile:ok', { user: UserInfo }>
+  /** Everyone online, to lobby subscribers: on subscribe, on every change, and every ~5 s. */
+  | Msg<'lobby:players', { players: LobbyPlayer[]; onlineCount: number }>
+  | Msg<'challenge:sent', { challengeId: string; to: PlayerInfo; timeControl: TimeControlId; rated: boolean; expiresInMs: number }>
+  | Msg<'challenge:incoming', { challengeId: string; from: PlayerInfo; timeControl: TimeControlId; rated: boolean; expiresInMs: number }>
+  /** To both sides. "accepted" is followed by game:start. */
+  | Msg<'challenge:closed', { challengeId: string; reason: ChallengeClosedReason }>
+  /** Top 50. `me` = the asking player's own row and rank, null until they've finished a game. */
+  | Msg<'leaderboard', { category: RatingCategory; sort: LeaderboardSort; players: LeaderboardEntry[]; me: LeaderboardEntry | null }>
   | Msg<'error', { code: string; message: string }>;

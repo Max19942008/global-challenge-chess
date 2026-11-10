@@ -26,6 +26,14 @@ Source of truth for types: `packages/chess-core/src/events.ts`. Executable versi
 | `game:drawRespond` | `{ gameId, accept }` | Only when the opponent's offer is open, else `error no_draw_offer`. |
 | `game:sync` | `{ gameId }` | Reply `game:state`. Use after a reconnect or whenever the board looks wrong. |
 | `game:claimVictory` | `{ gameId }` | Only after `opponent:abandoned`, else `error cannot_claim`. |
+| `profile:update` | `{ name?, avatar? }` | `name` 2–24 chars. `avatar`: base64 JPEG/PNG/WebP ≤ 150 KB decoded (resize to ~256 px first); `null` removes it. Reply `profile:ok`, or `error bad_name` / `bad_avatar`. |
+| `lobby:subscribe` | — | Start receiving `lobby:players` (send while the lobby is on screen; again after every reconnect). |
+| `lobby:unsubscribe` | — | Stop receiving it. |
+| `lobby:status` | `{ status }` | `watching` (default after connect) or `ready` (others may challenge you). Reset to `watching` when your last socket closes, so resend after a reconnect. |
+| `challenge:send` | `{ to, timeControl, rated }` | Only to a `ready`, online player who isn't you; else `error player_unavailable`. One open challenge per sender: a new one cancels the old. Reply `challenge:sent`. |
+| `challenge:respond` | `{ challengeId, accept }` | Only the challenged player; else `error no_challenge`. Accept → both get `challenge:closed accepted`, then `game:start`. |
+| `challenge:cancel` | `{ challengeId }` | Only the sender. |
+| `leaderboard:get` | `{ category?, sort? }` | `category` `blitz` (default) / `rapid` / `bullet`; `sort` `rating` (default) / `wins`. Reply `leaderboard`. |
 
 Anything except `auth`, `auth:guest`, `ping` before authentication → `error unauthenticated`.
 
@@ -33,7 +41,13 @@ Anything except `auth`, `auth:guest`, `ping` before authentication → `error un
 
 | type | payload | when |
 | --- | --- | --- |
-| `auth:ok` | `{ token, user: { id, name, ratings } }` | After `auth` / `auth:guest`. `ratings` always has `bullet`, `blitz`, `rapid`: `{ rating, provisional }` (1500 / provisional for new players). |
+| `auth:ok` | `{ token, user: { id, name, avatar, ratings, stats } }` | After `auth` / `auth:guest`. `ratings` always has `bullet`, `blitz`, `rapid`: `{ rating, provisional }` (1500 / provisional for new players). `stats = { wins, losses, draws }` over finished online games (aborted ones don't count). `avatar`: see Avatars. |
+| `profile:ok` | `{ user }` | After `profile:update`; same shape as in `auth:ok`. |
+| `lobby:players` | `{ players, onlineCount }` | To lobby subscribers: on subscribe, within ~0.5 s of any change (someone joins/leaves, changes status, name or photo, starts/ends a game), and every ~5 s. `players[] = { id, name, avatar, status, ratings, wins, losses, draws }`, `status` `ready` / `playing` / `watching`, sorted in that order then by blitz rating; at most 200. Includes yourself. |
+| `challenge:sent` | `{ challengeId, to, timeControl, rated, expiresInMs }` | `to` is a PlayerInfo. |
+| `challenge:incoming` | `{ challengeId, from, timeControl, rated, expiresInMs }` | Someone challenges you. Answer with `challenge:respond`. |
+| `challenge:closed` | `{ challengeId, reason }` | To both sides. `accepted` (then `game:start`), `declined`, `cancelled` (sender cancelled or disconnected), `expired` (60 s, no answer), `unavailable` (someone went into another game). |
+| `leaderboard` | `{ category, sort, players, me }` | Top 50: `{ rank, id, name, avatar, rating, provisional, games, wins, losses, draws }`. By rating: players with ≥ 1 rated game in the category. By wins: anyone with a finished game. `me` = your own row with your rank, or `null`. |
 | `pong` | `{ t, serverTime }` | Offset ≈ `serverTime − (sent + received) / 2`; take the sample with the smallest round trip out of ~5. |
 | `lobby:stats` | `{ onlineCount }` | Right after `auth:ok`, then every ~5 s. |
 | `queue:waiting` | `{ elapsedMs, onlineCount }` | Right after `queue:join`, then every ~2 s while queued. |
@@ -84,7 +98,16 @@ out → `game:end timeout`; it's a draw if the winner has only a king or king + 
 | `not_your_turn`, `illegal_move`, `bad_ply` | move refused (you also get `game:state`) |
 | `no_draw_offer` | nothing to respond to |
 | `cannot_claim` | opponent hasn't abandoned |
+| `bad_name`, `bad_avatar` | `profile:update` refused |
+| `player_unavailable` | can't challenge that player (not ready, offline, yourself) |
+| `no_challenge` | challenge doesn't exist (any more) or isn't yours to answer |
 | `internal` | server bug; resync |
+
+### Avatars
+
+`avatar` fields (in `user`, PlayerInfo, lobby and leaderboard rows) are a path on the same host, e.g.
+`/avatar/<userId>?v=3`, or `null` for no photo (show initials). Fetch it over HTTP(S) from the server
+address (`ws://h:p` → `http://h:p`, `wss://h` → `https://h`). A new photo gets a new `v`, so cache freely.
 
 ## Sequences
 
@@ -125,4 +148,17 @@ C: auth {token}                   S: auth:ok, lobby:stats, game:state {full}  (u
 (socket drops, no return)         S→opponent: opponent:disconnected {graceMs: 20000 (≤5 min) | 40000}
 (grace over)                      S→opponent: opponent:abandoned
 C(opponent): game:claimVictory    S→both: game:end {reason: abandon}
+```
+
+**Challenge from the lobby**
+
+```
+A, B: lobby:subscribe            S: lobby:players {…}   (and on every change)
+B: lobby:status {ready}          S→subscribers: lobby:players (B ready)
+A: challenge:send {to: B, "5+0", rated}
+                                  S→A: challenge:sent {challengeId}
+                                  S→B: challenge:incoming {challengeId, from: A}
+B: challenge:respond {challengeId, accept: true}
+                                  S→both: challenge:closed {accepted}
+                                  S→both: game:start …     (then as in any game)
 ```
