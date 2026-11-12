@@ -1,3 +1,4 @@
+// ignore_for_file: invalid_use_of_visible_for_testing_member
 // Play Store phone screenshots (1080x2160, 2:1 is the tallest Play allows) in en/uz/ru, written to store/screenshots/.
 //
 // Regenerate after UI changes (from apps/mobile):
