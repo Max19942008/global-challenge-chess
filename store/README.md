@@ -5,7 +5,7 @@
 | `listing-en.md`, `listing-uz.md`, `listing-ru.md` | Main store listing → nom, qisqa va to'liq tavsif (har til uchun "Manage translations") |
 | `../apps/mobile/store/icon-512.png` | App icon (512×512) |
 | `feature-graphic-{en,uz,ru}.png` | Feature graphic (1024×500) |
-| `screenshots/{en,uz,ru}/*.png` | Phone screenshots (1080×1920, 4 ta) |
+| `screenshots/{en,uz,ru}/*.png` | Phone screenshots (1080×2160, 5 ta: menyu, lobbi, reyting, AI bilan, onlayn). Qayta yaratish: `apps/mobile` da `flutter test tool/store_screenshots_test.dart --update-goldens` |
 | `../docs/privacy.md` | Privacy policy — URL: https://max19942008.github.io/global-challenge-chess/privacy |
 
 ## Store settings
